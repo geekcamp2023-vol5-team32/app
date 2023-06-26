@@ -7,7 +7,7 @@ services:
   frontend:
     build:
       context: ./frontend/
-      target: dev
+      target: main
     tty: true
     restart: always
     ports:
