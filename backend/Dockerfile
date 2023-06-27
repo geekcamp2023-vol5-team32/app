@@ -1,0 +1,23 @@
+# 開発環境
+FROM python:3.10 AS dev
+
+WORKDIR /app/backend
+
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+ENV FLASK_APP=src.main
+
+
+# 本番環境
+FROM python:3.10-slim AS prod
+
+WORKDIR /app/backend
+
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+COPY src ./src
+
+ENV PORT=5000
+CMD exec gunicorn --bind :$PORT src.main:app

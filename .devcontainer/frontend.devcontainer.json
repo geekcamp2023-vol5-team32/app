@@ -1,0 +1,13 @@
+{
+  "name": "Frontend",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "frontend",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mhutchie.git-graph"
+      ]
+    }
+  }
+}
