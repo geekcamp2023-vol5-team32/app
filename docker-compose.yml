@@ -13,7 +13,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app/frontend
+      - .:/app
       - frontend_node_modules:/app/frontend/node_modules
   backend:
     build:
@@ -24,4 +24,4 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./backend:/app/backend
+      - .:/app
