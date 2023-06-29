@@ -6,7 +6,7 @@ WORKDIR /app/backend
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
-ENV FLASK_APP=src.main
+ENV FLASK_APP=src.app
 
 
 # 本番環境
@@ -20,4 +20,4 @@ RUN pip install -r requirements.txt
 COPY src ./src
 
 ENV PORT=5000
-CMD exec gunicorn --bind :$PORT src.main:app
+CMD exec gunicorn --bind :$PORT src.app:app
