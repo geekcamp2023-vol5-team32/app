@@ -17,5 +17,5 @@ def callWhisper(fname:str) -> str:
     return transcript.text
 
 if __name__=="__main__":
-    result = callWhisper("yozuri.m4a")
+    result = callWhisper("小森めと.mp4")
     print(result)
