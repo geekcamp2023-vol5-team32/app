@@ -1,7 +1,9 @@
+import { Header } from "../../components/header"
+
 export const Page = () => {
   return (
     <>
-      <h1>Hello World!</h1>
+     <Header></Header>
     </>
   )
 }
