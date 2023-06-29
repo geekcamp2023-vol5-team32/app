@@ -26,7 +26,7 @@ class Writer():
         return extractRepr(gptRepr)    
    
     def translatorGPT(self, targetLang="") -> str:
-        languageOrder = F"{targetLang}に" if targetLang!="" else ""
+        languageOrder = F"{targetLang}に" if targetLang!="" else "日本語に"
         translatorRoleMsg = {
             "role": "system",
             "content": F"あなたは与えられたテキストを{languageOrder}翻訳しなければならない。"
