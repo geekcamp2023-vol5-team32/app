@@ -1,7 +1,7 @@
 # 実装時点ではフロント側が未実装。そのため、動作確認を行えていない。
 # 動作確認が終了したらmain.pyに書き写す
 
-from flask import Flask
+from flask import Flask,request,jsonify
 from dotenv import load_dotenv
 import os
 import openai
@@ -19,14 +19,14 @@ def convert_audio_text():
     # POSTリクエストのボディから音声データを取得
     data = request.get_json()
     filename = data['filename']
-    file_path = f'{filename}
+    file_path = f'{filename}'
     # ファイルのパスを生成
     fpath = os.path.join(basedir, file_path)
     audio_file = open(fpath, "rb")
     # オーディオファイルをテキストに変換
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    response = transcript.text
-    # 抽出されたテキストデータを返す
+    response = transcript
+    # 抽出されたテキストデータをjson形式で返す
     return jsonify(response)
 
 # 以下のコードは現時点では仮置き。
