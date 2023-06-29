@@ -1,11 +1,11 @@
 import json
 
-from chat_gpt import Writer
-from flask import jsonify, request, Blueprint
+from flask import Blueprint, jsonify, request
+from utils.interpreter import Writer
 
-translate_module = Blueprint("app_route", __name__)
+chatGPT_module = Blueprint("gpt_route", __name__)
 
-@translate_module.route("/translate", methods=['POST'])
+@chatGPT_module.route("/translate", methods=['POST'])
 def translate_text():
     data = request.get_data().decode("utf-8", "ignore")
     data_dict = json.loads(data)
