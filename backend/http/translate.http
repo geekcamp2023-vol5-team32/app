@@ -1,0 +1,7 @@
+POST http://127.0.0.1:5000/translate HTTP/1.1
+content-type: application/json
+
+{
+    "original_text": "こんにちは",
+    "language": "英語"
+}
