@@ -39,3 +39,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEEKCAMP2023_VOL5_TEAM32 }}'
           projectId: geekcamp2023-vol5-team32
+          channelId: live
