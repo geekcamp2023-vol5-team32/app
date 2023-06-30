@@ -24,7 +24,7 @@ COPY --from=base /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.
 COPY --from=base /usr/local/bin /usr/local/bin
 
 WORKDIR /app/backend
-ENV FLASK_APP=src.app
+ENV FLASK_APP=app
 
 
 # 本番環境
