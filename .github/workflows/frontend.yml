@@ -1,0 +1,41 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install NPM packages (use Yarn)
+        run: yarn install --frozen-lockfile
+
+      - name: Build app
+        run: yarn run build
+        env:
+          NODE_ENV: production
+
+      - name: Export files
+        run: yarn run export
+        env:
+          NODE_ENV: production
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GEEKCAMP2023_VOL5_TEAM32 }}'
+          projectId: geekcamp2023-vol5-team32
