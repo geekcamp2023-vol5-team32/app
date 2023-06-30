@@ -3,7 +3,7 @@ import uuid
 
 import openai
 from dotenv import load_dotenv
-from flask import (Blueprint, flash, jsonify, redirect, request)
+from flask import Blueprint, flash, jsonify, redirect, request
 from utils.listener import callWhisper
 from werkzeug.utils import secure_filename
 
@@ -15,11 +15,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 UPLOAD_FOLDER = os.path.join(basedir, "../audio/")
 ALLOWED_EXTENSIONS = {'mp3',"m4a"}
-
-# @whisper_module.route("/")
-# def whisper():
-#     messege = callWhisper("小森めと.mp4")
-#     return messege
 
 def allowed_file(filename):
     return '.' in filename and \
