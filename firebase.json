@@ -5,6 +5,22 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/liscript/api",
+        "run": {
+          "serviceId": "liscript",
+          "region": "asia-northeast1"
+        }
+      },
+      {
+        "source": "/liscript/api/**",
+        "run": {
+          "serviceId": "liscript",
+          "region": "asia-northeast1"
+        }
+      }
     ]
   }
 }
