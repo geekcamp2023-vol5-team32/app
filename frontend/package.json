@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "export": "next export",
+    "export": "next export -o out/liscript/",
     "start": "next start",
     "lint": "next lint"
   },
