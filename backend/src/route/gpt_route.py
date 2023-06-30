@@ -20,3 +20,17 @@ def translate_text():
         "language": language,
         "translated_text": translated_str
     }), 200
+
+@chatGPT_module.route("/summarize", methods=['POST'])
+def summarize_text():
+    data = request.get_data().decode("utf-8", "ignore")
+    data_dict = json.loads(data)
+
+    original_str = data_dict['original_text']
+
+    writer = Writer(original_str)
+    summarized_str = writer.summarizerGPT()
+
+    return jsonify({
+        "summarized_text": summarized_str
+    }), 200
