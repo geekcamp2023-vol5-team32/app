@@ -11,10 +11,8 @@ load_dotenv(verbose=True)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
-doDebug = True if os.getenv("DEBUG").lower() == "true" else False
-
 app.register_blueprint(chatGPT_module)
 app.register_blueprint(whisper_module)
 
 if __name__=="__main__":
-    app.run(debug=doDebug, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
