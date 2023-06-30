@@ -1,9 +1,11 @@
 import { Header } from "../../components/header"
+import { Main } from "../../components/main"
 
 export const Page = () => {
   return (
     <>
-     <Header></Header>
+      <Header></Header>
+      <Main></Main>
     </>
   )
 }
