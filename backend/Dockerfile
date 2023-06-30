@@ -21,4 +21,4 @@ COPY src ./src
 WORKDIR /app/backend/src
 
 ENV PORT=5000
-CMD exec gunicorn --bind :$PORT src.app:app
+CMD exec gunicorn --bind :$PORT src.app:app --log-level debug
