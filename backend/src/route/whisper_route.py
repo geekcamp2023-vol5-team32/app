@@ -22,27 +22,26 @@ def whisper():
     messege = callWhisper("小森めと.mp4")
     return messege
 
-@whisper_module.route("/convert",methods=['POST'])
-def convert_audio_text():
-    # POSTリクエストのボディから音声データを取得
-    data = request.get_json()
-    filename = data['filename']
-    file_path = f'{filename}'
-    # ファイルのパスを生成
-    fpath = os.path.join(basedir, file_path)
-    audio_file = open(fpath, "rb")
-    # オーディオファイルをテキストに変換
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    response = transcript
-    # 抽出されたテキストデータをjson形式で返す
-    return jsonify(response)
+# @whisper_module.route("/convert",methods=['POST'])
+# def convert_audio_text():
+#     # POSTリクエストのボディから音声データを取得
+#     data = request.get_json()
+#     filename = data['filename']
+#     # ファイルのパスを生成
+#     fpath = os.path.join(UPLOAD_FOLDER, filename)
+#     audio_file = open(fpath, "rb")
+#     # オーディオファイルをテキストに変換
+#     transcript = openai.Audio.transcribe("whisper-1", audio_file)
+#     response = transcript
+#     # 抽出されたテキストデータをjson形式で返す
+#     return jsonify(response)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@whisper_module.route("/upload", methods=['GET', 'POST'])
-def upload_file():
+@whisper_module.route("/convert", methods=['GET', 'POST'])
+def convert_audio_text():
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -58,7 +57,19 @@ def upload_file():
             filename = str(uuid.uuid5(uuid.NAMESPACE_DNS, file_name))
             filename = secure_filename(filename + "." +file_extention)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for('whisper_route.download_file', name=filename))
+            
+            # 以下はWhisperの処理
+            # ファイルのパスを生成
+            fpath = os.path.join(UPLOAD_FOLDER, filename)
+            audio_file = open(fpath, "rb")
+            # オーディオファイルをテキストに変換
+            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+            #response = transcript
+            os.remove(fpath)
+            # 抽出されたテキストデータをjson形式で返す
+            return jsonify(transcript.text)
+
+            #return redirect(url_for('whisper_route.download_file', name=filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -69,9 +80,9 @@ def upload_file():
     </form>
     '''
 
-@whisper_module.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(UPLOAD_FOLDER, name)
+# @whisper_module.route('/uploads/<name>')
+# def download_file(name):
+#     return send_from_directory(UPLOAD_FOLDER, name)
 
 # 参考
 # https://qiita.com/fghyuhi/items/d42ce8cb1f5de5280ac5

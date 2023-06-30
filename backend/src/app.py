@@ -7,6 +7,7 @@ from route.gpt_route import chatGPT_module
 from route.whisper_route import whisper_module
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 load_dotenv(verbose=True)
 
 doDebug = True if os.getenv("DEBUG").lower() == "true" else False
