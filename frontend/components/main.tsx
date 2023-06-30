@@ -16,24 +16,43 @@ export function Main() {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #F2F2F2;
-        height: 84vh;
+        background-image : url(./img/bg-image.png);
+        height: 86vh;
+        @media (max-width: 768px) {
+         flex-direction: column;
+          height: 100vh;
+        }
       `}
     >
+      
       <Input
         css={css`
-          width: 40%;
-          height: 75%;
+          width: 45%;
+          height: 80%;
           border-radius: 7px;
           border: 1px solid #000;
           background: #FFF;
           box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
           margin-right: 3%;
+          @media (max-width: 768px) {
+           margin-right:0%;
+           width:80%;
+           margin:30px;
+          }
         `}
         value={leftInputValue}
         onChange={e => setLeftInputValue(e.target.value)}
       />
-      <Box position="relative" width="40%" height="75%">
+      <Box css={css`
+            position:relative;
+            width:45%;
+            height:80%;
+            @media (max-width: 768px) {
+            margin-right:0%;
+            width:80%;
+            margin:10px;
+          }
+     `}>
         <Input
           css={css`
             width: 100%;
@@ -42,6 +61,7 @@ export function Main() {
             border: 1px solid #000;
             background: #FFF;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+          }
           `}
           value={rightInputValue}
           onChange={e => setRightInputValue(e.target.value)}
