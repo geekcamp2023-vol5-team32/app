@@ -1,5 +1,5 @@
-# 基本環境
-FROM node:16 AS main
+# 開発環境
+FROM node:16 AS dev
 
 WORKDIR /app/frontend
 
