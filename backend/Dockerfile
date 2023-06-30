@@ -18,6 +18,7 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
 COPY src ./src
+WORKDIR /app/backend/src
 
 ENV PORT=5000
 CMD exec gunicorn --bind :$PORT src.app:app
