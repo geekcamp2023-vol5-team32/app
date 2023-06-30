@@ -31,4 +31,4 @@ jobs:
         run: make build && make push
 
       - name: Deploy to Cloud Run
-        run: meke deploy
+        run: make deploy
