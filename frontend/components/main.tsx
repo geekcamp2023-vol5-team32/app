@@ -1,9 +1,12 @@
 import { Box, Input, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { css } from "@emotion/react";
 import { FilePicker } from "./file-picker";
+import { useFile } from "@/store";
+import { FileTextViewer } from "./file-text-viewer";
 
 export function Main() {
+  const file = useFile()
   const [rightInputValue, setRightInputValue] = useState("")
 
   const handleClickCopyButton = () => {
@@ -24,7 +27,7 @@ export function Main() {
         }
       `}
     >
-      <FilePicker css={css`
+      <div css={css`
         width: 45%;
         height: 80%;
         border-radius: 7px;
@@ -32,12 +35,21 @@ export function Main() {
         background: #FFF;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         margin-right: 3%;
+        overflow: scroll;
         @media (max-width: 768px) {
           margin-right:0%;
           width:80%;
           margin:30px;
         }
-      `} />
+      `}>
+        {file === null ? (
+          <FilePicker/>
+        ) : (
+          <Suspense fallback="loading">
+            <FileTextViewer/>
+          </Suspense>
+        )}
+      </div>
       <Box css={css`
             position:relative;
             width:45%;
