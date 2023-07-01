@@ -1,8 +1,7 @@
 import { Box, Input, Button } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
-
-import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
+import { FileUploader } from "./file-uploader";
 
 export function Main() {
   const [rightInputValue, setRightInputValue] = useState("")
@@ -10,17 +9,7 @@ export function Main() {
   const handleClickCopyButton = () => {
       navigator.clipboard.writeText(rightInputValue);
     }
-  
-  const onDrop = useCallback(((
-    acceptedFiles: File[],
-    fileRejections: FileRejection[],
-    event: DropEvent
-  ) => {
-    console.log(acceptedFiles, fileRejections, event)
-  }), [])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-  
+   
   return (
     <Box
       css={css`
@@ -35,7 +24,7 @@ export function Main() {
         }
       `}
     >
-      <div {...getRootProps()} css={css`
+      <FileUploader css={css`
         width: 45%;
         height: 80%;
         border-radius: 7px;
@@ -48,14 +37,7 @@ export function Main() {
           width:80%;
           margin:30px;
         }
-      `}>
-        <input {...getInputProps()}/>
-        {
-          isDragActive ?
-            <p>ファイルをドロップしてください。</p> :
-            <p>ドラック & ドロップ または クリックをしてファイルをアップロードしてください。</p>
-        }
-      </div>
+      `} />
       <Box css={css`
             position:relative;
             width:45%;
