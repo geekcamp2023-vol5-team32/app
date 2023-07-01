@@ -4,7 +4,7 @@ export const FileTextViewer = () => {
   const fileText = useFileText()
   return (
     <div>
-      {fileText?.data ?? ""}
+      {fileText ?? ""}
     </div>
   )
 }

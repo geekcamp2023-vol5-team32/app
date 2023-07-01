@@ -14,7 +14,7 @@ export function useSetFile() {
   return useSetRecoilState(fileState)
 }
 
-const fileTextState = selector({
+const fileTextState = selector<string | null>({
   key: "FileText",
   async get({ get }) {
     const file = get(fileState)
@@ -26,7 +26,9 @@ const fileTextState = selector({
     const form = new FormData()
     form.append('file', file)
 
-    return api.post("/convert", form)
+    const res = await api.post("/convert", form)
+
+    return res.data
   }
 })
 
