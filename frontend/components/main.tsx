@@ -16,7 +16,7 @@ export function Main() {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image : url(./img/bg-image.png);
+        background-image : url(/liscript/img/bg-image.png);
         height: 86vh;
         @media (max-width: 768px) {
          flex-direction: column;
