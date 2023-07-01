@@ -57,7 +57,9 @@ export function Main() {
           要約
         </Button>
         <br />
-        <Button margin={4}>
+        <Button margin={4} onClick={() => {
+          setGeneratedViewerMode("translate")
+        }}>
           翻訳
         </Button>
       </Box>

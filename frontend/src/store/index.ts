@@ -61,6 +61,28 @@ export function useSummarizedFileText() {
   return useRecoilValue(summarizedFileTextState)
 }
 
+const tlanslatedFileTextState = selector<string | null>({
+  key: "TlanslatedFileTextState",
+  async get({ get }) {
+    const fileText = get(fileTextState)
+
+    if (fileText === null) {
+      return null
+    }
+
+    const res = await api.post("/translate", {
+      original_text: fileText,
+      language: "英語",
+    })
+
+    return res.data.translated_text
+  }
+})
+
+export function useTlanslatedFileText() {
+  return useRecoilValue(tlanslatedFileTextState)
+}
+
 const generatedViewerModeState = atom<"summarize" | "translate" | null>({
   key: "GeneratedViewerMode",
   default: null
