@@ -1,7 +1,7 @@
 import { Box, Input, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { css } from "@emotion/react";
-import { FileUploader } from "./file-uploader";
+import { FilePicker } from "./file-picker";
 
 export function Main() {
   const [rightInputValue, setRightInputValue] = useState("")
@@ -24,7 +24,7 @@ export function Main() {
         }
       `}
     >
-      <FileUploader css={css`
+      <FilePicker css={css`
         width: 45%;
         height: 80%;
         border-radius: 7px;

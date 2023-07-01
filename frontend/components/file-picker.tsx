@@ -1,11 +1,11 @@
 import { useCallback } from "react"
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone"
 
-export type FileUploaderProps = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
+export type FilePickerProps = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
 
 }
 
-export const FileUploader = (props: FileUploaderProps) => {
+export const FilePicker = (props: FilePickerProps) => {
   const onDrop = useCallback(((
     acceptedFiles: File[],
     fileRejections: FileRejection[],
