@@ -11,6 +11,7 @@ RUN wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.t
 
 RUN  tar Jxvf ./ffmpeg-release-amd64-static.tar.xz \
   && mv ./ffmpeg*amd64-static/ffmpeg /usr/local/bin/ \
+  && mv ./ffmpeg*amd64-static/ffprobe /usr/local/bin/ \
   && rm -rf /ffmpeg*amd64-static
 
 COPY requirements.txt ./
