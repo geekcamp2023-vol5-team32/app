@@ -28,13 +28,12 @@ export function Main() {
       `}
     >
       <div css={css`
-        width: 45%;
+        width: 40%;
         height: 80%;
         border-radius: 7px;
         border: 1px solid #000;
         background: #FFF;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        margin-right: 3%;
         overflow: scroll;
         @media (max-width: 768px) {
           margin-right:0%;
@@ -50,15 +49,24 @@ export function Main() {
           </Suspense>
         )}
       </div>
+      <Box>
+        <Button margin={4}>
+          要約
+        </Button>
+        <br />
+        <Button margin={4}>
+          翻訳
+        </Button>
+      </Box>
       <Box css={css`
-            position:relative;
-            width:45%;
-            height:80%;
-            @media (max-width: 768px) {
-            margin-right:0%;
-            width:80%;
-            margin:10px;
-          }
+        position:relative;
+        width:40%;
+        height:80%;
+        @media (max-width: 768px) {
+          margin-right:0%;
+          width:80%;
+          margin:10px;
+        }
      `}>
         <Input
           css={css`
