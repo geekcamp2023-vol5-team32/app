@@ -36,6 +36,31 @@ export function useFileText() {
   return useRecoilValue(fileTextState)
 }
 
+export function useFileTextLoadable() {
+  return useRecoilValueLoadable(fileTextState)
+}
+
+const summarizedFileTextState = selector<string | null>({
+  key: "SummarizedFileTextState",
+  async get({ get }) {
+    const fileText = get(fileTextState)
+
+    if (fileText === null) {
+      return null
+    }
+
+    const res = await api.post("/summarize", {
+      original_text: fileText,
+    })
+
+    return res.data.summarized_text
+  }
+})
+
+export function useSummarizedFileText() {
+  return useRecoilValue(summarizedFileTextState)
+}
+
 const generatedViewerModeState = atom<"summarize" | "translate" | null>({
   key: "GeneratedViewerMode",
   default: null

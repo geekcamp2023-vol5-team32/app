@@ -1,4 +1,4 @@
-import { useFileText, useGeneratedViewerMode } from "@/store"
+import { useFileText, useGeneratedViewerMode, useSummarizedFileText } from "@/store"
 
 export const FileTextViewer = () => {
   const fileText = useFileText()
@@ -10,7 +10,7 @@ export const FileTextViewer = () => {
 }
 
 export const SummarizeTextViewer = () => {
-  const fileText = null
+  const fileText = useSummarizedFileText()
   return (
     <div>
       {fileText ?? ""}

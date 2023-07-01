@@ -82,7 +82,9 @@ export function Main() {
           }
           `}
         >
-          <GeneratedTextViewer />
+          <Suspense fallback="loading">
+            <GeneratedTextViewer />
+          </Suspense>
         </Box>    
         <Button
           position="absolute"
