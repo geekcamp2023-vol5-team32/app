@@ -14,7 +14,7 @@ export function Header() {
   return (
     <>
       <Box display={"flex"} alignItems={"center"} backgroundColor={"#E6F6D6"}>
-        <Image src="./img/icon.png" css={css`
+        <Image src="/liscript/img/icon.png" css={css`
           width: 120px;
           height: 14vh;
           flex-shrink: 0;
@@ -30,7 +30,7 @@ export function Header() {
           font-weight: 900;
         `}>Liscript</Box>
         <Spacer></Spacer>
-        <Image src="./img/menu.png" css={css`
+        <Image src="/liscript/img/menu.png" css={css`
         width: 85px;
         height: 80px;
         margin-right:2%;
