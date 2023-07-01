@@ -2,16 +2,12 @@ import { Box, Input, Button } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { css } from "@emotion/react";
 import { FilePicker } from "./file-picker";
-import { useFile } from "@/store";
-import { FileTextViewer } from "./file-text-viewer";
+import { useFile, useSetGeneratedViewerMode } from "@/store";
+import { FileTextViewer, GeneratedTextViewer } from "./file-text-viewer";
 
 export function Main() {
   const file = useFile()
-  const [rightInputValue, setRightInputValue] = useState("")
-
-  const handleClickCopyButton = () => {
-      navigator.clipboard.writeText(rightInputValue);
-    }
+  const setGeneratedViewerMode = useSetGeneratedViewerMode()
    
   return (
     <Box
@@ -28,13 +24,12 @@ export function Main() {
       `}
     >
       <div css={css`
-        width: 45%;
+        width: 40%;
         height: 80%;
         border-radius: 7px;
         border: 1px solid #000;
         background: #FFF;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        margin-right: 3%;
         overflow: scroll;
         @media (max-width: 768px) {
           margin-right:0%;
@@ -50,39 +45,37 @@ export function Main() {
           </Suspense>
         )}
       </div>
-      <Box css={css`
-            position:relative;
-            width:45%;
-            height:80%;
-            @media (max-width: 768px) {
-            margin-right:0%;
-            width:80%;
-            margin:10px;
-          }
-     `}>
-        <Input
-          css={css`
-            width: 100%;
-            height: 100%;
-            border-radius: 7px;
-            border: 1px solid #000;
-            background: #FFF;
-            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-          }
-          `}
-          value={rightInputValue}
-          onChange={e => setRightInputValue(e.target.value)}
-        />    
-        <Button
-          position="absolute"
-          right="10px"
-          bottom="10px"
-          transform="translateY(-50%)"
-          onClick={handleClickCopyButton}
-        >
-          Copy
+      <Box>
+        <Button margin={4} onClick={() => {
+          setGeneratedViewerMode("summarize")
+        }}>
+          要約
+        </Button>
+        <br />
+        <Button margin={4} onClick={() => {
+          setGeneratedViewerMode("translate")
+        }}>
+          翻訳
         </Button>
       </Box>
+      <div css={css`
+        width: 40%;
+        height: 80%;
+        border-radius: 7px;
+        border: 1px solid #000;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        overflow: scroll;
+        @media (max-width: 768px) {
+          margin-right:0%;
+          width:80%;
+          margin:30px;
+        }
+      `}>
+        <Suspense fallback="loading">
+          <GeneratedTextViewer />
+        </Suspense>
+      </div>
     </Box>
   );
 }
