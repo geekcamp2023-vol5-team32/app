@@ -1,7 +1,7 @@
 import { Box, Image } from "@chakra-ui/react";
 
 import { css } from "@emotion/react";
-import { Header } from "../../../components/header";
+import { Header } from "@/components/header";
 
 export default function Page() {
   return (

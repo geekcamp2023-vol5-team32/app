@@ -1,6 +1,6 @@
-import { Header } from "../../../components/header";
+import { Header } from "@/components/header";
 import { Box, Image } from "@chakra-ui/react";
-import { Member } from "../../../components/member";
+import { Member } from "@/components/member";
 import { css } from "@emotion/react";
 
 export default function Page() {
@@ -71,7 +71,7 @@ export default function Page() {
 
 // import { css } from "@emotion/react";
 
-// import { Header } from "../../../components/header";
+// import { Header } from "@/components/header";
 
 // export default function Page() {
 //   return (
