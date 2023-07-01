@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask, Blueprint
+from flask_cors import CORS as FlaskCORS
 
 from route.gpt_route import chatGPT_module
 from route.whisper_route import whisper_module
@@ -9,6 +10,8 @@ from route.whisper_route import whisper_module
 load_dotenv(verbose=True)
 
 app = Flask(__name__)
+cors = FlaskCORS(app)
+
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 api_route_blueprint = Blueprint("api_route", __name__, url_prefix="/liscript/api/")
