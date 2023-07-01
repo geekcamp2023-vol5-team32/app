@@ -2,12 +2,13 @@ import { Box, Input, Button } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { css } from "@emotion/react";
 import { FilePicker } from "./file-picker";
-import { useFile } from "@/store";
-import { FileTextViewer } from "./file-text-viewer";
+import { useFile, useSetGeneratedViewerMode } from "@/store";
+import { FileTextViewer, GeneratedTextViewer } from "./file-text-viewer";
 
 export function Main() {
   const file = useFile()
   const [rightInputValue, setRightInputValue] = useState("")
+  const setGeneratedViewerMode = useSetGeneratedViewerMode()
 
   const handleClickCopyButton = () => {
       navigator.clipboard.writeText(rightInputValue);
@@ -50,7 +51,9 @@ export function Main() {
         )}
       </div>
       <Box>
-        <Button margin={4}>
+        <Button margin={4} onClick={() => {
+          setGeneratedViewerMode("summarize")
+        }}>
           要約
         </Button>
         <br />
@@ -68,7 +71,7 @@ export function Main() {
           margin:10px;
         }
      `}>
-        <Input
+        <Box
           css={css`
             width: 100%;
             height: 100%;
@@ -78,9 +81,9 @@ export function Main() {
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
           }
           `}
-          value={rightInputValue}
-          onChange={e => setRightInputValue(e.target.value)}
-        />    
+        >
+          <GeneratedTextViewer />
+        </Box>    
         <Button
           position="absolute"
           right="10px"

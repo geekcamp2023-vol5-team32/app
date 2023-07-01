@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
+import { atom, selector, useRecoilValue, useSetRecoilState, useRecoilValueLoadable } from "recoil";
 
 const fileState = atom<File | null>({
   key: "FileState",
@@ -34,4 +34,17 @@ const fileTextState = selector<string | null>({
 
 export function useFileText() {
   return useRecoilValue(fileTextState)
+}
+
+const generatedViewerModeState = atom<"summarize" | "translate" | null>({
+  key: "GeneratedViewerMode",
+  default: null
+})
+
+export function useGeneratedViewerMode() {
+  return useRecoilValue(generatedViewerModeState)
+}
+
+export function useSetGeneratedViewerMode() {
+  return useSetRecoilState(generatedViewerModeState)
 }
