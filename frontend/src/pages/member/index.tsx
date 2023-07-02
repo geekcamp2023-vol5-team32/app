@@ -22,11 +22,10 @@ export default function Page() {
         <Box
           css={css`
             width: 90%;
-            height: 70%;
-            border: 1px solid #fff;
+            height: 100%;
             border-radius: 7px;
+            padding-top:6%;
             @media (max-width: 768px) {
-              margin: 20px 0;
               height: 100%;
             }
           `}
