@@ -6,7 +6,10 @@ const TextViewer = (props: { children: ReactNode }) => {
   return (
     <Box
       color="gray.900"
-      padding="3%"
+      pt="3%"
+      pb="3%"
+      pl="3%"
+      pr="2%"
     >
       {props.children}
     </Box>
