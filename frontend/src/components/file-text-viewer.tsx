@@ -1,29 +1,43 @@
 import { useFileText, useGeneratedViewerMode, useSummarizedFileText, useTlanslatedFileText } from "@/store"
+import { ReactNode } from "react"
+import { Box } from "@chakra-ui/react"
+
+const TextViewer = (props: { children: ReactNode }) => {
+  return (
+    <Box
+      color="gray.900"
+      padding="3%"
+    >
+      {props.children}
+    </Box>
+  )
+
+}
 
 export const FileTextViewer = () => {
   const fileText = useFileText()
   return (
-    <div>
+    <TextViewer>
       {fileText ?? ""}
-    </div>
+    </TextViewer>
   )
 }
 
 export const SummarizeTextViewer = () => {
   const fileText = useSummarizedFileText()
   return (
-    <div>
+    <TextViewer>
       {fileText ?? ""}
-    </div>
+    </TextViewer>
   )
 }
 
 export const TranslateTextViewer = () => {
   const fileText = useTlanslatedFileText()
   return (
-    <div>
+    <TextViewer>
       {fileText ?? ""}
-    </div>
+    </TextViewer>
   )
 }
 
