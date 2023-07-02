@@ -4,7 +4,7 @@ from pydub import AudioSegment
 
 import openai
 from dotenv import load_dotenv
-from flask import Blueprint, flash, jsonify, redirect, request
+from flask import Blueprint, jsonify, request
 from utils.listener import callWhisper
 from werkzeug.utils import secure_filename
 
@@ -40,29 +40,28 @@ def convert_audio_text():
     if request.method == 'POST':
 
         if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+            messege = 'No file part.'
+            return jsonify(messege), 400
         recieved_file = request.files['file']
         recieved_filename = recieved_file.filename
 
         if recieved_filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+            messege = 'No selected file.'
+            return jsonify(messege), 400
         
         if recieved_file and allowed_file(recieved_filename):
             hashing = lambda fname: str(uuid.uuid5(uuid.NAMESPACE_DNS, fname))
 
             filename, extention = recieved_filename.split(".")
             export_filename = secure_filename(hashing(filename) + F".{extention}")
-        
             
             try:
                 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
                 export_filepath = os.path.join(UPLOAD_FOLDER, export_filename)
                 recieved_file.save(export_filepath)
             except:
-                flash('An error occurred while the file was being saved or transferred.')
-                return redirect(request.url)
+                messege = 'An error occurred while the file was being saved or transferred.'
+                return jsonify(messege), 400
             
             audio_size = os.path.getsize(export_filepath)
             if audio_size > MAX_AUDIO_SIZE:
@@ -71,18 +70,20 @@ def convert_audio_text():
                 small_audio_size = os.path.getsize(export_filepath)
 
                 if small_audio_size > MAX_AUDIO_SIZE:
-                    flash('This audio data is too large.')
-                    return redirect(request.url)
+                    messege = 'This audio data is too large.'
+                    os.remove(export_filepath)
+                    return jsonify(messege), 400                    
                 
             # 以下はWhisperの処理
             try:
                 messege = callWhisper(export_filename)
             except:
-                flash('An error occurred during speech recognition')
-                return redirect(request.url)
+                messege = 'An error occurred during speech recognition'
+                os.remove(export_filepath)
+                return jsonify(messege), 400
 
             os.remove(export_filepath)
-            return jsonify(messege)
+            return jsonify(messege), 200
 
     return '''
     <!doctype html>
