@@ -21,7 +21,8 @@ const MainBox = (props: any) => {
         <Box
           width="full"
           height="full"
-          overflow="scroll"
+          overflowX="hidden"
+          overflowY="scroll"
         >
           {props.children}
         </Box>
