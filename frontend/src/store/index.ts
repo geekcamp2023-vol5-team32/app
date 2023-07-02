@@ -72,7 +72,6 @@ const tlanslatedFileTextState = selector<string | null>({
 
     const res = await api.post("/translate", {
       original_text: fileText,
-      language: "英語",
     })
 
     return res.data.translated_text
