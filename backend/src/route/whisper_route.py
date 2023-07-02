@@ -15,7 +15,7 @@ load_dotenv(verbose=True)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 UPLOAD_FOLDER = os.path.join(basedir, "../audio/")
-ALLOWED_EXTENSIONS = {'mp3',"m4a","mp4"}
+ALLOWED_EXTENSIONS = {'mp3',"m4a","mp4","wav"}
 
 MAX_AUDIO_SIZE = 26214400
 
