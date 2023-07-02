@@ -61,7 +61,7 @@ export function Member( {name, role, company, twitter}: {name: string, role: str
         `}
       >
         <Image
-          src="./img/twitter.png"
+          src="/liscript/img/twitter.png"
           css={css`
             width: 30px;
             height: 30px;
