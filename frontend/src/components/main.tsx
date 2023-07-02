@@ -1,9 +1,57 @@
-import { Box, Input, Button } from "@chakra-ui/react";
+import { Box, Input, Button, Spinner } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 import { css } from "@emotion/react";
 import { FilePicker } from "./file-picker";
 import { useFile, useSetGeneratedViewerMode } from "@/store";
 import { FileTextViewer, GeneratedTextViewer } from "./file-text-viewer";
+
+const MainBox = (props: any) => {
+  return (
+    <Box 
+      bgColor="white"
+      border='1px'
+      borderColor="black"
+      rounded='md'
+      boxShadow='dark-lg'
+      overflow="hidden"
+      width="40%"
+      height="80%"
+    >
+      {props.scroll ? (
+        <Box
+          width="full"
+          height="full"
+          overflow="scroll"
+        >
+          {props.children}
+        </Box>
+      ) : (
+        <>
+          {props.children}
+        </>
+      )}
+    </Box>
+  )
+}
+
+const SpinnerBox = () => {
+  return (
+    <Box 
+      width="full"
+      height="full"
+      bgColor="gray.300"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Spinner
+        thickness='4px'
+        speed='0.65s'
+        size='xl'
+      />
+    </Box>
+  )
+}
 
 export function Main() {
   const file = useFile()
@@ -23,28 +71,21 @@ export function Main() {
         }
       `}
     >
-      <div css={css`
-        width: 40%;
-        height: 80%;
-        border-radius: 7px;
-        border: 1px solid #000;
-        background: #FFF;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        overflow: scroll;
-        @media (max-width: 768px) {
-          margin-right:0%;
-          width:80%;
-          margin:30px;
-        }
-      `}>
-        {file === null ? (
+      {file === null ? (
+        <MainBox>
           <FilePicker/>
-        ) : (
-          <Suspense fallback="loading">
+        </MainBox>
+      ) : (
+        <Suspense fallback={
+          <MainBox>
+            <SpinnerBox />
+          </MainBox>
+        }>
+          <MainBox scroll>
             <FileTextViewer/>
-          </Suspense>
-        )}
-      </div>
+          </MainBox>
+        </Suspense>
+      )}
       <Box>
         <Button margin={4} onClick={() => {
           setGeneratedViewerMode("summarize")
@@ -58,24 +99,17 @@ export function Main() {
           翻訳
         </Button>
       </Box>
-      <div css={css`
-        width: 40%;
-        height: 80%;
-        border-radius: 7px;
-        border: 1px solid #000;
-        background: #FFF;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        overflow: scroll;
-        @media (max-width: 768px) {
-          margin-right:0%;
-          width:80%;
-          margin:30px;
-        }
-      `}>
-        <Suspense fallback="loading">
-          <GeneratedTextViewer />
+      {(
+        <Suspense fallback={
+          <MainBox>
+            <SpinnerBox />
+          </MainBox>
+        }>
+          <MainBox scroll>
+            <GeneratedTextViewer />
+          </MainBox>
         </Suspense>
-      </div>
+      )}
     </Box>
   );
 }
