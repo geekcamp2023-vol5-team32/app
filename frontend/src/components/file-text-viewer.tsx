@@ -2,16 +2,30 @@ import { useFileText, useGeneratedViewerMode, useSummarizedFileText, useTlanslat
 import { ReactNode, useState } from "react"
 import { Box, Button, useClipboard } from "@chakra-ui/react"
 
-const TextViewer = (props: { children: ReactNode }) => {
-  const { onCopy } = useClipboard(props.children.toString())
-  const [copied, setCopied] = useState(false)
+const CopyButton = (props: { text: string }) => {
+  const { onCopy } = useClipboard(props.text)
+  const [isCopied, setIsCopied] = useState(false)
 
   const handleCopy = () => {
     onCopy()
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1000)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 1000)
   }
 
+  return (
+    <Button
+      onClick={handleCopy}
+      position="absolute"
+      bottom="8px"
+      right="24px"
+      zIndex="1"
+    >
+      {isCopied ? "Copied!" : "Copy"}
+    </Button>
+  )
+}
+
+const TextViewer = (props: { children: ReactNode }) => {
   return (
     <Box
       color="gray.900"
@@ -19,17 +33,7 @@ const TextViewer = (props: { children: ReactNode }) => {
       pb="3%"
       pl="3%"
       pr="2%"
-      position="relative"
     >
-      <Button
-        onClick={handleCopy}
-        position="absolute"
-        bottom="0"
-        right="2%"
-        zIndex="1"
-      >
-        {copied ? "Copied!" : "Copy"}
-      </Button>
       {props.children}
     </Box>
   )
@@ -39,7 +43,8 @@ export const FileTextViewer = () => {
   const fileText = useFileText()
   return (
     <TextViewer>
-      {fileText ?? ""}
+      {fileText}
+      <CopyButton text={fileText!} />
     </TextViewer>
   )
 }
@@ -48,7 +53,8 @@ export const SummarizeTextViewer = () => {
   const fileText = useSummarizedFileText()
   return (
     <TextViewer>
-      {fileText ?? ""}
+      {fileText}
+      <CopyButton text={fileText!} />
     </TextViewer>
   )
 }
@@ -57,7 +63,8 @@ export const TranslateTextViewer = () => {
   const fileText = useTlanslatedFileText()
   return (
     <TextViewer>
-      {fileText ?? ""}
+      {fileText}
+      <CopyButton text={fileText!} />
     </TextViewer>
   )
 }
