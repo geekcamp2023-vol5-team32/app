@@ -18,7 +18,11 @@ def translate_text():
 
 
     writer = Writer(original_str)
-    translated_str = writer.translatorGPT(target_lang=target_lang)
+    try:
+        translated_str = writer.translatorGPT(target_lang=target_lang)
+    except:
+        messege = 'An error occurred during translating'
+        return jsonify(messege), 400
 
     return jsonify({
         "language": target_lang,
@@ -33,8 +37,12 @@ def summarize_text():
     original_str = data_dict['original_text']
 
     writer = Writer(original_str)
-    summarized_str = writer.summarizerGPT()
-
+    try:
+        summarized_str = writer.summarizerGPT()
+    except:
+        messege = 'An error occurred during summarizing'
+        return jsonify(messege), 400
+    
     return jsonify({
         "summarized_text": summarized_str
     }), 200
