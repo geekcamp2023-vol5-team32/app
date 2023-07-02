@@ -1,4 +1,4 @@
-POST http://localhost:5000/convert
+POST http://localhost:5000/liscript/api/convert
 Content-Type: application/json
 
 {

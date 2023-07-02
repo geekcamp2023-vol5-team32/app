@@ -2,6 +2,5 @@ POST http://127.0.0.1:5000/liscript/api/translate HTTP/1.1
 content-type: application/json
 
 {
-    "original_text": "Hey guys, we have a gift for you! We just need you to answer a few questions first, then you'll earn a nice reward. It's very quick and simple! It only takes a minute. So come on, click on the following link to claim your gift. Don't wait, time is running out! Click on the link and enjoy your free gift. Now hurry up!",
-    "language": ""
+    "original_text": "こんにちは"
 }
