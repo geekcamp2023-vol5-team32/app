@@ -14,7 +14,7 @@ const MainBox = (props: any) => {
       rounded='md'
       boxShadow='dark-lg'
       overflow="hidden"
-      width="40%"
+      width={{ base: "90%", md: "40%" }}
       height="80%"
     >
       {props.scroll ? (
@@ -60,16 +60,13 @@ export function Main() {
    
   return (
     <Box
+      flexDirection={{ base: "column", md: "row" }}
+      height={{ base: "120vh", md: "86vh" }}
       css={css`
         display: flex;
         justify-content: center;
         align-items: center;
         background-image : url(/liscript/img/bg-image.png);
-        height: 86vh;
-        @media (max-width: 768px) {
-         flex-direction: column;
-          height: 100vh;
-        }
       `}
     >
       {file === null ? (
@@ -87,13 +84,17 @@ export function Main() {
           </MainBox>
         </Suspense>
       )}
-      <Box>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection={{ base: "row", md: "column" }}
+      >
         <Button margin={4} onClick={() => {
           setGeneratedViewerMode("summarize")
         }}>
           要約
         </Button>
-        <br />
         <Button margin={4} onClick={() => {
           setGeneratedViewerMode("translate")
         }}>
