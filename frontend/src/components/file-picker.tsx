@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone"
 import { useSetFile } from "@/store"
+import { Box } from "@chakra-ui/react"
 
 export type FilePickerProps = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
 
@@ -21,13 +22,20 @@ export const FilePicker = (props: FilePickerProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
-    <div {...props} {...getRootProps()}>
+    <Box 
+      {...props} 
+      {...getRootProps()} 
+      bgColor="blackAlpha.200"
+      textColor="gray.700"
+      width="full"
+      height="full"
+      >
       <input {...getInputProps()} />
       {
         isDragActive ?
           <p>ファイルをドロップしてください。</p> :
           <p>ドラック & ドロップ または クリックをしてファイルをアップロードしてください。</p>
       }
-    </div>
+    </Box>
   )
 }
