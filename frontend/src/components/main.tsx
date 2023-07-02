@@ -90,14 +90,26 @@ export function Main() {
         alignItems="center"
         flexDirection={{ base: "row", md: "column" }}
       >
-        <Button margin={4} onClick={() => {
-          setGeneratedViewerMode("summarize")
-        }}>
+        <Button
+          colorScheme="green"
+          size="lg" 
+          margin="4"
+          boxShadow="dark-lg"
+          onClick={() => {
+            setGeneratedViewerMode("summarize")
+          }}
+        >
           要約
         </Button>
-        <Button margin={4} onClick={() => {
-          setGeneratedViewerMode("translate")
-        }}>
+        <Button
+          colorScheme="blue" 
+          size="lg" 
+          margin="4"
+          boxShadow="dark-lg"
+          onClick={() => {
+            setGeneratedViewerMode("translate")
+          }}
+        >
           翻訳
         </Button>
       </Box>
