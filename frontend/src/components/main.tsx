@@ -16,6 +16,7 @@ const MainBox = (props: any) => {
       overflow="hidden"
       width="40%"
       height="80%"
+      position="relative"
     >
       {props.scroll ? (
         <Box
