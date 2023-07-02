@@ -25,8 +25,8 @@ export const FilePicker = (props: FilePickerProps) => {
     <Box 
       {...props} 
       {...getRootProps()} 
-      bgColor="gray.600"
-      textColor="gray.100"
+      bgColor="blackAlpha.200"
+      textColor="gray.700"
       width="full"
       height="full"
       >

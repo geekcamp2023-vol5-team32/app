@@ -39,7 +39,7 @@ const SpinnerBox = () => {
     <Box 
       width="full"
       height="full"
-      bgColor="gray.300"
+      bgColor="blackAlpha.200"
       display="flex"
       justifyContent="center"
       alignItems="center"
