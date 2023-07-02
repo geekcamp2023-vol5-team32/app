@@ -26,7 +26,12 @@ const fileTextState = selector<string | null>({
     const form = new FormData()
     form.append('file', file)
 
-    const res = await api.post("/convert", form)
+    const res = await api.post("/convert", form).catch(err => {
+      console.error(err)
+      window.alert("ファイルの変換に失敗しました")
+      location.reload()
+      throw err
+    })
 
     return res.data
   }
@@ -51,6 +56,11 @@ const summarizedFileTextState = selector<string | null>({
 
     const res = await api.post("/summarize", {
       original_text: fileText,
+    }).catch(err => {
+      console.error(err)
+      window.alert("ファイルの要約に失敗しました")
+      location.reload()
+      throw err
     })
 
     return res.data.summarized_text
@@ -72,6 +82,11 @@ const tlanslatedFileTextState = selector<string | null>({
 
     const res = await api.post("/translate", {
       original_text: fileText,
+    }).catch(err => {
+      console.error(err)
+      window.alert("ファイルの翻訳に失敗しました")
+      location.reload()
+      throw err
     })
 
     return res.data.translated_text
