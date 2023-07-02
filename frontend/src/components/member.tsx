@@ -12,6 +12,7 @@ export function Member( {name, role, company, twitter}: {name: string, role: str
         text-align: center;
         @media (max-width: 768px) {
           flex-direction: column;
+          margin:24px 0;
         }
       `}
     >
