@@ -8,6 +8,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  Button,
+  IconButton,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -48,18 +50,26 @@ export function Header() {
           Liscript
         </Box>
         <Spacer></Spacer>
-        <Image
-          src="/liscript/img/menu.png"
-          css={css`
-        width: 85px;
-        height: 80px;
-        margin-right:2%;
-        filter: invert(88%) sepia(61%) saturate(0%) hue-rotate(229deg) brightness(107%) contrast(101%);
-        }
-        `}
+        <IconButton 
+          width="85px"
+          height="80px"
+          aria-label='Search database'
+          colorScheme='blackAlpha'
+          variant='solid' 
           onClick={onOpen}
-        ></Image>
-
+          icon={
+            <Image 
+              src="/liscript/img/menu.png" 
+              css={css`
+                width: 85px;
+                height: 80px;
+                margin-right:2%;
+                filter: invert(88%) sepia(61%) saturate(0%) hue-rotate(229deg) brightness(107%) contrast(101%);
+                }
+              `}
+            />
+          } 
+        />
         <Modal isOpen={isOpen} onClose={onClose} size="xs" isCentered>
           <ModalOverlay />
           <ModalContent
