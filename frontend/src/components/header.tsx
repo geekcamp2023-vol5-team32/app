@@ -105,12 +105,6 @@ export function Header() {
             >
               <Link href="/describe">Liscriptとは</Link>
             </ModalBody>
-            <ModalBody
-              flex="0"
-              css={{ marginTop: "20px", backgroundColor: "lightgreen" }}
-            >
-              開発期間、技術選定
-            </ModalBody>
           </ModalContent>
         </Modal>
       </Box>
