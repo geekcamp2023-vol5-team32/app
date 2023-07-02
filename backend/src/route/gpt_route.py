@@ -1,7 +1,7 @@
 import json
 
 from flask import Blueprint, jsonify, request
-from utils.interpreter import Writer
+from utils.interpreter import Writer, linguist
 
 chatGPT_module = Blueprint("gpt_route", __name__)
 
@@ -11,13 +11,17 @@ def translate_text():
     data_dict = json.loads(data)
 
     original_str = data_dict['original_text'] 
-    language = data_dict['language']
+
+    original_str_language_codes = linguist(original_str)
+
+    target_lang = "英語" if original_str_language_codes == "ja" else "日本語"
+
 
     writer = Writer(original_str)
-    translated_str = writer.translatorGPT(target_lang=language)
+    translated_str = writer.translatorGPT(target_lang=target_lang)
 
     return jsonify({
-        "language": language,
+        "language": target_lang,
         "translated_text": translated_str
     }), 200
 
