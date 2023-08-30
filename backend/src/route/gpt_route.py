@@ -10,9 +10,11 @@ def translate_text():
     data = request.get_data().decode("utf-8", "ignore")
     data_dict = json.loads(data)
 
-    original_str = data_dict['original_text'] 
-    target_lang = data_dict['target_language']
-
+    original_str = data_dict['original_text']
+    try:
+        target_lang = data_dict['target_language']
+    except:
+        target_lang = ""
     writer = Writer(original_str)
     try:
         translated_str = writer.translatorGPT(target_lang=target_lang)
