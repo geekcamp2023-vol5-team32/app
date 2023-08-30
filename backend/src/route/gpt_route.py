@@ -11,11 +11,7 @@ def translate_text():
     data_dict = json.loads(data)
 
     original_str = data_dict['original_text'] 
-
-    original_str_language_codes = linguist(original_str)
-
-    target_lang = "英語" if original_str_language_codes == "ja" else "日本語"
-
+    target_lang = data_dict['target_language']
 
     writer = Writer(original_str)
     try:

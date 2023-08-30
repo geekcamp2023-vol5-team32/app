@@ -1,7 +1,8 @@
+import json
 import os
 
-import openai
 import langid
+import openai
 from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
@@ -11,27 +12,30 @@ class Writer():
     def __init__(self, original_text:str):
         self.original_text = original_text
         self.model_of_ChatGPT = "gpt-3.5-turbo"
-
         self.given_msg = {
             "role": "user", "content": self.original_text
-        }        
+        }
 
     def __repr__(self):
         return '\n'.join([
             f'Original text: {self.original_text}',
             f'ChatGPT mode: {self.model_of_ChatGPT}',
         ])
-    
+
     def __callChatGPT(self, msgs:list) -> str:
         gptRepr = openai.ChatCompletion.create(model=self.model_of_ChatGPT, messages = msgs)
         extractRepr = lambda repr: repr["choices"][0]["message"]["content"]
         return extractRepr(gptRepr)    
    
     def translatorGPT(self, target_lang="") -> str:
-        language_order = F"{target_lang}" if target_lang!="" else "日本語"
+        code = F"{target_lang}" if target_lang!="" else "ja"
+        basedir = os.path.dirname(__file__)
+        jsonpath = os.path.join(basedir, "iso_639-1.json")
+        with open(jsonpath) as f:
+            language_map = json.load(f)
         translator_role_msg = {
             "role": "system",
-            "content": F"あなたは与えられたテキストを{language_order}に翻訳しなければならない。"
+            "content": F"あなたは与えられたテキストを{language_map[code]['nativeName']}に翻訳しなければならない。"
         }
         msg = [translator_role_msg, self.given_msg]
         gpt_answer = self.__callChatGPT(msg)
@@ -54,6 +58,10 @@ def linguist(unknown_language_text:str) -> str:
 if __name__=="__main__":
     import langid
     print(langid.classify("你好"))
+    with open('backend/src/utils/iso_639-1.json') as f:
+        d = json.load(f)
+    print(langid.classify(d["en"]))
+
 
 # if __name__=="__main__":
 #     import time
