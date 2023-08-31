@@ -17,6 +17,7 @@ const languages: Record<string, Language> = languagesData;
 export const SelectBox = () => {
 	const setLanguage = useSetTargetLanguage()
 	const getLanguage:string = useTargetLanguage()
+	// console.log(getLanguage)
 	return (
 		<Box
 			display="flex"

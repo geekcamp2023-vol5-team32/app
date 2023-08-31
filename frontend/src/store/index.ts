@@ -75,6 +75,7 @@ const tlanslatedFileTextState = selector<string | null>({
   key: "TlanslatedFileTextState",
   async get({ get }) {
     const fileText = get(fileTextState)
+    const target_language = get(targetLanguageState)
 
     if (fileText === null) {
       return null
@@ -82,6 +83,7 @@ const tlanslatedFileTextState = selector<string | null>({
 
     const res = await api.post("/translate", {
       original_text: fileText,
+      target_language: target_language
     }).catch(err => {
       console.error(err)
       window.alert("ファイルの翻訳に失敗しました")
