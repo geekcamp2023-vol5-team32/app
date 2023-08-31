@@ -1,5 +1,6 @@
 import { Box, Select } from "@chakra-ui/react";
 
+import { useTargetLanguage, useSetTargetLanguage } from "@/store";
 import languagesData  from '@/lib/iso_639-1.json';
 
 interface Language {
@@ -14,6 +15,8 @@ interface Language {
 const languages: Record<string, Language> = languagesData;
 
 export const SelectBox = () => {
+	const setLanguage = useSetTargetLanguage()
+	const getLanguage:string = useTargetLanguage()
 	return (
 		<Box
 			display="flex"
@@ -24,14 +27,12 @@ export const SelectBox = () => {
 				width="80%"
 				size='lg'
 				bg='white'
+				value={getLanguage}
+				onChange={(event) => setLanguage(event.target.value)}
 			>
-				{Object.keys(languages).map((key) => {
+				{Object.keys(languages).map((key, i) => {
 					const language = languages[key];
-					if (key === "ja") {
-						return (<option value={key} selected>{language.nativeName}</option>);
-					} else {
-						return (<option value={key}>{language.nativeName}</option>);
-					}
+					return (<option key={i} value={key}>{language.nativeName}</option>);
 				})}
 			</Select>
 		</Box>

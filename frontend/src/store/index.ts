@@ -109,3 +109,16 @@ export function useGeneratedViewerMode() {
 export function useSetGeneratedViewerMode() {
   return useSetRecoilState(generatedViewerModeState)
 }
+
+const targetLanguageState = atom<string>({
+  key: "TargetLanguage",
+  default: "ja",
+})
+
+export function useTargetLanguage() {
+  return useRecoilValue(targetLanguageState)
+}
+
+export function useSetTargetLanguage() {
+  return useSetRecoilState(targetLanguageState)
+}
