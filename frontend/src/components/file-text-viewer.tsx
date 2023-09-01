@@ -1,4 +1,4 @@
-import { useFileText, useGeneratedViewerMode, useTlanslatedFileText } from "@/store"
+import { useFileText, useGeneratedViewerMode, useTargetLanguage } from "@/store"
 import { ReactNode, useState, useEffect } from "react"
 import { Box, Button, useClipboard } from "@chakra-ui/react"
 import { API_BASE_URL } from "@/lib/api";
@@ -102,11 +102,55 @@ export const SummarizeTextViewer = () => {
 }
 
 export const TranslateTextViewer = () => {
-  const fileText = useTlanslatedFileText()
+  const fileText = useFileText()
+  const targetLanguage = useTargetLanguage()
+
+  const [resultStream, setResultStream] = useState<string | null>(null);
+  const fileTextState  = useFileText();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (fileText === null) {
+          return null
+        }
+    
+        const res = await fetch(API_BASE_URL + "/translateStream", {
+          method: "POST",
+          body: JSON.stringify({
+            original_text: fileText,
+            target_language: targetLanguage
+          })
+        })
+    
+        const decoder = new TextDecoder()
+        const reader = res.body!.getReader()
+    
+        const readChunk = ({done, value}: any) => {
+          if(done) {
+            return
+          }
+    
+          setResultStream(result => result + decoder.decode(value))
+          reader.read().then(readChunk)
+        }
+    
+        reader.read().then(readChunk)
+      }
+      
+      catch (error) {
+        console.error(error);
+        window.alert("ファイルの要約に失敗しました");
+        location.reload();
+      }
+    };
+    fetchData();
+  }, [fileTextState]);
+
   return (
     <TextViewer>
-      {fileText}
-      <CopyButton text={fileText!} />
+      {resultStream}
+      <CopyButton text={resultStream!} />
     </TextViewer>
   )
 }
