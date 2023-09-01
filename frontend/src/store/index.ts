@@ -124,3 +124,8 @@ export function useTargetLanguage() {
 export function useSetTargetLanguage() {
   return useSetRecoilState(targetLanguageState)
 }
+
+export const resultStreamState = atom<string>({
+  key: "ResultStreamState",
+  default: "",
+})
