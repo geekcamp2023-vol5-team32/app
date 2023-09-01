@@ -1,0 +1,7 @@
+POST http://127.0.0.1:5000/liscript/api//translateStream HTTP/1.1
+content-type: application/json
+
+{
+    "original_text": "Red sky at night, sailors' delight.Red sky at morning, sailors take warning.",
+    "target_language" : "ja"
+}
