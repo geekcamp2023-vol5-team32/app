@@ -1,12 +1,7 @@
-import { 
-  useFileText, useGeneratedViewerMode,
-  useSummarizedFileText, useTlanslatedFileText,
-  resultStreamState
-} from "@/store"
-import { useRecoilState } from 'recoil';
+import { useFileText, useGeneratedViewerMode, useTlanslatedFileText } from "@/store"
 import { ReactNode, useState, useEffect } from "react"
 import { Box, Button, useClipboard } from "@chakra-ui/react"
-import { api } from "@/lib/api";
+import { API_BASE_URL } from "@/lib/api";
 
 const CopyButton = (props: { text: string }) => {
   const { onCopy } = useClipboard(props.text)
@@ -58,28 +53,45 @@ export const FileTextViewer = () => {
 export const SummarizeTextViewer = () => {
   const fileText = useFileText()
 
-  const [resultStream, setResultStream] = useRecoilState(resultStreamState);
+  const [resultStream, setResultStream] = useState<string | null>(null);
+  const fileTextState  = useFileText();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.post("/summarizeStream", {
-          original_text: fileText,
+        if (fileTextState == null) {
+          return
+        }
+        const res = await fetch(API_BASE_URL + "/summarizeStream", {
+          method: "POST",
+          body: JSON.stringify({
+            original_text: fileText,
+          })
         })
-        const stream = res.data;
-        stream.on('data', (data:string) => {
-          setResultStream(resultStream + data);
-        });
-        stream.on('end', () => {
-          console.log("stream finished")
-        });
-      } catch (error) {
+    
+        const decoder = new TextDecoder()
+        const reader = res.body!.getReader()
+    
+        const readChunk = ({done, value}: any) => {
+          if(done) {
+            return
+          }
+    
+          setResultStream(result => result + decoder.decode(value))
+          reader.read().then(readChunk)
+        }
+    
+        reader.read().then(readChunk)
+      }
+      
+      catch (error) {
         console.error(error);
         window.alert("ファイルの要約に失敗しました");
         location.reload();
       }
     };
     fetchData();
-  }, [setResultStream]);
+  }, [fileTextState]);
 
   return (
     <TextViewer>
