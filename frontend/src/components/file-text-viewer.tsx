@@ -53,7 +53,7 @@ export const FileTextViewer = () => {
 export const SummarizeTextViewer = () => {
   const fileText = useFileText()
 
-  const [resultStream, setResultStream] = useState<string | null>(null);
+  const [resultStream, setResultStream] = useState("");
   const fileTextState  = useFileText();
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export const TranslateTextViewer = () => {
   const fileText = useFileText()
   const targetLanguage = useTargetLanguage()
 
-  const [resultStream, setResultStream] = useState<string | null>(null);
+  const [resultStream, setResultStream] = useState("");
   const fileTextState  = useFileText();
 
   useEffect(() => {
