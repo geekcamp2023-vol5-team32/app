@@ -1,6 +1,12 @@
-import { useFileText, useGeneratedViewerMode, useSummarizedFileText, useTlanslatedFileText } from "@/store"
-import { ReactNode, useState } from "react"
+import { 
+  useFileText, useGeneratedViewerMode,
+  useSummarizedFileText, useTlanslatedFileText,
+  resultStreamState
+} from "@/store"
+import { useRecoilState } from 'recoil';
+import { ReactNode, useState, useEffect } from "react"
 import { Box, Button, useClipboard } from "@chakra-ui/react"
+import { api } from "@/lib/api";
 
 const CopyButton = (props: { text: string }) => {
   const { onCopy } = useClipboard(props.text)
@@ -50,11 +56,35 @@ export const FileTextViewer = () => {
 }
 
 export const SummarizeTextViewer = () => {
-  const fileText = useSummarizedFileText()
+  const fileText = useFileText()
+
+  const [resultStream, setResultStream] = useRecoilState(resultStreamState);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.post("/summarizeStream", {
+          original_text: fileText,
+        })
+        const stream = res.data.summarized_text;
+        stream.on('data', (data:string) => {
+          setResultStream(resultStream + data);
+        });
+        stream.on('end', () => {
+          console.log("stream finished")
+        });
+      } catch (error) {
+        console.error(error);
+        window.alert("ファイルの要約に失敗しました");
+        location.reload();
+      }
+    };
+    fetchData();
+  }, [setResultStream]);
+
   return (
     <TextViewer>
-      {fileText}
-      <CopyButton text={fileText!} />
+      {resultStream}
+      <CopyButton text={resultStream!} />
     </TextViewer>
   )
 }
