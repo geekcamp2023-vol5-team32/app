@@ -23,17 +23,36 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def reduce_audio_size(before_modify_filename,before_export_filepath):
+def split_and_reduce_audio(source_audio, chunk_length_ms):
+    chunks = []
+    total_duration = len(source_audio)
+    chunk_count = total_duration // chunk_length_ms
+
+    for i in range(chunk_count):
+        start_time = i * chunk_length_ms
+        end_time = (i + 1) * chunk_length_ms
+        chunk = source_audio[start_time:end_time]
+        chunks.append(chunk)
+
+    return chunks
+
+def reduce_audio_size(before_modify_filename, before_export_filepath):
     fpath = os.path.join(UPLOAD_FOLDER, before_modify_filename)
-    sourceAudio = AudioSegment.from_file(fpath)
-    # フレームレートを低下させ、データ量を減らす
-    audio = sourceAudio.set_frame_rate(16000)
-    # 全てのファイルをwavファイルに変換し、保存
-    output_path = os.path.join(UPLOAD_FOLDER, "output.wav")
-    audio.export(output_path, format="wav")
-    # サイズを小さくする前のファイルを削除
-    os.remove(before_export_filepath)
-    return output_path,"output.wav"
+    source_audio = AudioSegment.from_file(fpath)
+
+    # 分割とリサンプリング
+    chunk_length_ms = 60000  # 60秒毎に分割
+    audio_chunks = split_and_reduce_audio(source_audio, chunk_length_ms)
+
+    # 各チャンクを処理
+    output_chunks = []
+    for i, chunk in enumerate(audio_chunks):
+        chunk_filename = f"chunk_{i + 1}.wav"
+        chunk.export(os.path.join(UPLOAD_FOLDER, chunk_filename), format="wav")
+        output_chunks.append(chunk_filename)
+
+    return output_chunks
+
 
 @whisper_module.route("/convert", methods=['GET', 'POST'])
 def convert_audio_text():
@@ -65,25 +84,42 @@ def convert_audio_text():
             
             audio_size = os.path.getsize(export_filepath)
             if audio_size > MAX_AUDIO_SIZE:
-                # 音声データを小さくし、ファイル名とファイルパスを更新
-                export_filepath,export_filename = reduce_audio_size(export_filename,export_filepath)
-                small_audio_size = os.path.getsize(export_filepath)
+                # 音声データを分割してリサンプリング
+                output_chunk_filenames = reduce_audio_size(export_filename, export_filepath)
 
-                if small_audio_size > MAX_AUDIO_SIZE:
-                    messege = 'This audio data is too large.'
+                if len(output_chunk_filenames) == 0:
+                    messege = 'Failed to process audio.'
                     os.remove(export_filepath)
-                    return jsonify(messege), 400                    
-                
-            # 以下はWhisperの処理
-            try:
-                messege = callWhisper(export_filename)
-            except:
-                messege = 'An error occurred during speech recognition'
-                os.remove(export_filepath)
-                return jsonify(messege), 400
+                    return jsonify(messege), 400
 
-            os.remove(export_filepath)
-            return jsonify(messege), 200
+                # 分割されたチャンクを個別にWhisperに送信して処理
+                messages = []
+                for chunk_filename in output_chunk_filenames:
+                    try:
+                        chunk_messege = callWhisper(chunk_filename)
+                        messages.append(chunk_messege)
+                    except:
+                        messages.append('（一部音声の文字起こしに失敗しました）')
+
+                # 分割されたファイルを削除
+                for chunk_filename in output_chunk_filenames:
+                    os.remove(os.path.join(UPLOAD_FOLDER, chunk_filename))
+
+                combined_message = ''.join(messages)
+                messege = [combined_message]
+                os.remove(export_filepath)
+                return jsonify(messege),200
+            else:
+                try:
+                    messege = callWhisper(export_filename)
+                except:
+                    messege = 'An error occurred during speech recognition'
+                    os.remove(export_filepath)
+                    return jsonify(messege), 400
+                    
+                os.remove(export_filepath)
+                return jsonify(messege), 200
+
 
     return '''
     <!doctype html>
