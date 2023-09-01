@@ -65,7 +65,7 @@ export const SummarizeTextViewer = () => {
         const res = await api.post("/summarizeStream", {
           original_text: fileText,
         })
-        const stream = res.data.summarized_text;
+        const stream = res.data;
         stream.on('data', (data:string) => {
           setResultStream(resultStream + data);
         });
