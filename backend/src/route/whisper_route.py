@@ -99,7 +99,7 @@ def convert_audio_text():
                         chunk_messege = callWhisper(chunk_filename)
                         messages.append(chunk_messege)
                     except:
-                        messages.append('***一部音声がうまく読み取れませんでした***')
+                        messages.append('（一部音声の文字起こしに失敗しました）')
 
                 # 分割されたファイルを削除
                 for chunk_filename in output_chunk_filenames:
