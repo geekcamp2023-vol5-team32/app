@@ -31,8 +31,10 @@ class Writer():
         gptGen = openai.ChatCompletion.create(model=self.model_of_ChatGPT, messages = msgs, stream=True)
         extractChunk = lambda chunk: chunk["choices"][0].get("delta",{}).get("content")
         for chunk in gptGen:
-            yield extractChunk(chunk)
-   
+            word = extractChunk(chunk)
+            if word is not None:
+                yield word.encode('utf-8')
+
     def translatorGPT(self, target_lang="", stream=False):
         code = F"{target_lang}" if target_lang!="" else "ja"
         basedir = os.path.dirname(__file__)
@@ -70,7 +72,6 @@ def linguist(unknown_language_text:str) -> str:
 
 if __name__=="__main__":
     import time
-
     writer = Writer("Red sky at night, sailors' delight.Red sky at morning, sailors take warning.")
     start = time.time()
     result = writer.translatorGPT(target_lang="ja", stream=True)
