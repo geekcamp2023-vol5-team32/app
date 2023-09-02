@@ -1,7 +1,7 @@
 import { Box, Select } from "@chakra-ui/react";
 
 import { useTargetLanguage, useSetTargetLanguage } from "@/store";
-import languagesData  from '@/lib/iso_639-1.json';
+import languagesData  from '@/lib/iso_639-1_ja.json';
 
 interface Language {
 	"639-1": string;
@@ -10,6 +10,7 @@ interface Language {
 	name: string;
 	nativeName: string;
 	wikiUrl: string;
+	japanese_name: string;
 }
 
 const languages: Record<string, Language> = languagesData;
@@ -33,7 +34,7 @@ export const SelectBox = () => {
 			>
 				{Object.keys(languages).map((key, i) => {
 					const language = languages[key];
-					return (<option key={i} value={key}>{language.nativeName}</option>);
+					return (<option key={i} value={key}>{language.nativeName}{'\u0009'}{language.japanese_name}</option>);
 				})}
 			</Select>
 		</Box>
